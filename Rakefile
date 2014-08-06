@@ -44,8 +44,14 @@ namespace :unit do
   begin
     require 'rspec/core/rake_task'
     require 'ci/reporter/rake/rspec'
-    desc 'Run unit tests with RSpec/ChefSpec'
-    RSpec::Core::RakeTask.new('rspec' => 'ci:setup:rspec') do |t|
+    desc 'Run unit tests with RSpec/ChefSpec and CI Reporter'
+    # rspec for CI testing
+    RSpec::Core::RakeTask.new('rspec:ci' => 'ci:setup:rspec') do |t|
+      t.rspec_opts = '--format documentation'
+    end
+    desc 'Run unit tests with RSpec/ChefSpec and console logging'
+    # Same thing but for command line output
+    RSpec::Core::RakeTask.new('rspec') do |t|
       t.rspec_opts = [].tap do |a|
         a.push('--color')
         a.push('--format documentation')
@@ -55,11 +61,8 @@ namespace :unit do
     puts '>>>>> rspec gem not loaded, omitting tasks' unless ENV['CI']
   end
 end
-# Alias
-task unit: ['unit:rspec']
 
 desc 'Run full test stack'
-task test: ['style', 'unit', 'integration:kitchen:all']
+task test: ['style', 'unit:rspec:ci', 'integration:kitchen:all']
 
-# Default, reduced set for development
-task default: %w(style unit)
+task default: %w(style rspec)
