@@ -65,4 +65,4 @@ end
 desc 'Run full test stack'
 task test: ['style', 'unit:rspec:ci', 'integration:kitchen:all']
 
-task default: %w(style rspec)
+task default: %w(style unit:rspec:ci)
