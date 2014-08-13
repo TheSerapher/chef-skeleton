@@ -1,4 +1,4 @@
-# Skeleton Cookbook
+# Skeleton Cookbook [![Build Status](https://travis-ci.org/TheSerapher/chef-skeleton.png?branch=master)](https://travis-ci.org/TheSerapher/chef-skeleton)
 
 # Requirements
 
